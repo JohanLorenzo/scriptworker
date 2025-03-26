@@ -125,6 +125,13 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                     "path_regexes": (r"^/api/queue/v1/task/(?P<taskId>[^/]+)(/runs/\\d+)?/artifacts/(?P<filepath>.*)$",),
                 }
             ),
+            immutabledict(
+                {
+                    "schemes": ("https",),
+                    "netlocs": ("community-tc.services.mozilla.com",),
+                    "path_regexes": (r"^/api/queue/v1/task/(?P<taskId>[^/]+)(/runs/\\d+)?/artifacts/(?P<filepath>.*)$",),
+                }
+            ),
         ),
         "scriptworker_provisioners": ("scriptworker-prov-v1", "scriptworker-k8s"),
         # valid hash algorithms for chain of trust artifacts
@@ -143,6 +150,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                         "adhoc": "github",
                         "scriptworker": "github",
                         "translations": "github",
+                        "community": "github",
                     }
                 )
             }
@@ -176,6 +184,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                         "adhoc": ("adhoc-1/decision", "adhoc-3/decision", "adhoc-1/decision-gcp", "adhoc-3/decision-gcp"),
                         "scriptworker": ("scriptworker-1/decision", "scriptworker-3/decision", "scriptworker-1/decision-gcp", "scriptworker-3/decision-gcp"),
                         "translations": ("translations-1/decision-gcp",),
+                        "community": ("proj-taskcluster/gw-ubuntu-24-04"),
                     }
                 )
             }
@@ -195,6 +204,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                         "adhoc": ("adhoc-1/images", "adhoc-3/images", "adhoc-1/images-gcp", "adhoc-3/images-gcp"),
                         "scriptworker": ("scriptworker-1/images", "scriptworker-3/images", "scriptworker-1/images-gcp", "scriptworker-3/images-gcp"),
                         "translations": ("translations-1/images-gcp",),
+                        "community": ("foo"),
                     }
                 )
             }
@@ -291,6 +301,15 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                             }
                         ),
                     ),
+                    "community": (
+                        immutabledict(
+                            {
+                                "schemes": ("https", "ssh"),
+                                "netlocs": ("github.com",),
+                                "path_regexes": tuple([r"^(?P<path>/taskcluster/taskcluster)(/|.git|$)"]),
+                            }
+                        ),
+                    )
                 }
             )
         },
@@ -326,6 +345,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                     "adhoc": ("action", "github-pull-request", "github-push"),
                     "scriptworker": ("action", "cron", "github-pull-request", "github-push", "github-release"),
                     "translations": ("action", "github-pull-request", "github-push"),
+                    "community": ("github-push",)
                 }
             )
         },
@@ -342,6 +362,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                     "adhoc": "mozilla-releng",
                     "scriptworker": "mozilla-releng",
                     "translations": "mozilla",
+                    "community": "taskcluster",
                 }
             )
         },
@@ -435,6 +456,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                             "project:translations:releng:beetmover:bucket:release": "translations-repo",
                         }
                     ),
+                    "community": immutabledict({})
                 }
             )
         },
@@ -536,6 +558,9 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                             "translations-repo": ("/mozilla/translations",),
                         }
                     ),
+                    "community": immutabledict({
+                        "taskcluster-repo": ("/taskcluster/taskcluster",)
+                    })
                 }
             )
         },
@@ -553,6 +578,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                     "adhoc": "any",  # all allowed
                     "scriptworker": ("decision", "action", "docker-image"),
                     "translations": "any",  # all allowed
+                    "community": "any",
                 }
             )
         },
@@ -569,6 +595,7 @@ DEFAULT_CONFIG: immutabledict[str, Any] = immutabledict(
                     "adhoc": "ADHOC",
                     "scriptworker": "SCRIPTWORKER",
                     "translations": "TRANSLATIONS",
+                    "community": "TASKCLUSTER",
                 }
             )
         },
